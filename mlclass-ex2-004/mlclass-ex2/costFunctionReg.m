@@ -18,10 +18,35 @@ grad = zeros(size(theta));
 %               derivatives of the cost w.r.t. each parameter in theta
 
 
+nonRegCost = costFunction(theta,X,y);
 
+regPenalty = (lambda/(2*m)) * (sum(theta .^ 2)- theta(1)^2);
 
+J = nonRegCost + regPenalty;
 
+H = X * theta;
+sigmoidV = sigmoid(H);
+tempgrad = ((sigmoidV - y)' * X)/m;
+disp("--start of tempgrad");
+disp(tempgrad);
+disp("---------");
+term1 = tempgrad(1);
+disp("---start of term1");
+disp(term1);
+disp("---------");
+regvector = (lambda/m)*theta;
+disp("----start of regVector");
+disp(regvector);
+disp("------");
+tempgrad =tempgrad+regvector';
+disp("----start of tempgrad regvector");
+disp(tempgrad);
+disp("----");
+tempgrad(1) = term1;
+grad = tempgrad;
 
 % =============================================================
+
+
 
 end
