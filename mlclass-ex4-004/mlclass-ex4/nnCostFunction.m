@@ -13,10 +13,6 @@ function [J grad] = nnCostFunction(nn_params, ...
 %   The returned parameter grad should be a "unrolled" vector of the
 %   partial derivatives of the neural network.
 %
-%disp("X = ");
-%disp(size(X));
-%disp("y = ");
-%disp(size(y));
 %
 % Reshape nn_params back into the parameters Theta1 and Theta2, the weight matrices
 % for our 2 layer neural network
@@ -26,10 +22,6 @@ Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
 
-%disp("Theta1 = ");
-%disp(size(Theta1));
-%disp("Theta2 = ");
-%disp(size(Theta2));
 
 % Setup some useful variables
 m = size(X, 1);
@@ -49,22 +41,14 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 
 X = [ones(m, 1) X];
-% disp("X");
-% disp(size(X));
 
 H = sigmoid(X * Theta1');
-%disp("H =");
-%disp(size(H));
 
 l = size(H, 1);
 H = [ones(l,1) H];
 
-% disp("H = ");
-% disp(size(H));
 
 H2 = sigmoid(H * Theta2');
-% disp("H2 = ");
-% disp(size(H2));
 
 onesmat = ones(size(H2));
 
@@ -78,7 +62,6 @@ for i = 1:m,
   yAsBinaryMatrix(i,y(i)) =1 ;
 end
 
-% nonRegCost = sum(yAsBinaryMatrix .* logsig + (onesmat - yAsBinaryMatrix) .* logonesig)/(m);
 
 nonRegCost = 0;
 
@@ -101,8 +84,6 @@ Theta2 = Theta2 .* Theta2;
 
 
 nb_sum1 = sum(Theta1);
-% disp("nb_sum1");
-% disp(size(nb_sum1));
 scalar_sum1 = sum(nb_sum1);
 
 nb_sum2 = sum(Theta2);
@@ -143,19 +124,9 @@ for t = 1:m,
 
  h_row_sg = sigmoidGradient(h2_row);
 
-% disp("Theta2");
-%disp(size(Theta2));
-%disp("delta_row");
-%disp(size(delta_row));
-%disp("h_row_sg");
-%disp(size(h_row_sg));
  second_delta_row = (delta_row * Theta2) .* h_row_sg;
 
  second_delta_row = second_delta_row(2:end);
-
-%disp("Theta2_grad");disp(size(Theta2_grad));
-%disp("delta_row");disp(size(delta_row));
-%disp("h2_row");disp(size(h2_row));
 
   Theta2_grad = Theta2_grad + delta_row' * h2_row;
   Theta1_grad = Theta1_grad + second_delta_row' * a_row; 
@@ -174,15 +145,24 @@ Theta1_grad = Theta1_grad/m;
 %
 
 
+regmat1 = Theta1;
+regmat2 = Theta2;
+
+regmat1(:,[1]) = [];
+regmat2(:,[1]) = [];
 
 
+l = size(regmat1, 1);
+regmat1 = [zeros(l,1) regmat1];
 
+l = size(regmat2, 1);
+regmat2 = [ones(l,1) regmat2];
 
+regmat1 = (lambda/m) * regmat1;
+regmat2 = (lambda/m) * regmat2;
 
-
-
-
-
+Theta1_grad = Theta1_grad + regmat1;
+Theta2_grad = Theta2_grad + regmat2;
 
 
 
