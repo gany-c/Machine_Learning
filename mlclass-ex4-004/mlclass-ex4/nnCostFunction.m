@@ -13,6 +13,10 @@ function [J grad] = nnCostFunction(nn_params, ...
 %   The returned parameter grad should be a "unrolled" vector of the
 %   partial derivatives of the neural network.
 %
+disp("X = ");
+disp(size(X));
+disp("y = ");
+disp(size(y));
 
 % Reshape nn_params back into the parameters Theta1 and Theta2, the weight matrices
 % for our 2 layer neural network
@@ -21,6 +25,11 @@ Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
 
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
+
+disp("Theta1 = ");
+disp(size(Theta1));
+disp("Theta2 = ");
+disp(size(Theta2));
 
 % Setup some useful variables
 m = size(X, 1);
@@ -38,7 +47,52 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
-%
+
+X = [ones(m, 1) X];
+disp("X");
+disp(size(X));
+
+H = sigmoid(X * Theta1');
+disp("H =");
+disp(size(H));
+
+l = size(H, 1);
+H = [ones(l,1) H];
+
+disp("H = ");
+disp(size(H));
+
+H2 = sigmoid(H * Theta2');
+disp("H2 = ");
+disp(size(H2));
+
+onesmat = ones(size(H2));
+
+logsig = (-1)*log(H2);
+
+logonesig = (-1)*log(onesmat - H2);
+
+yAsBinaryMatrix = zeros(m,num_labels); 
+
+for i = 1:m,
+  yAsBinaryMatrix(i,y(i)) =1 ;
+end
+
+%nonRegCost = sum(yAsBinaryMatrix .* logsig + (onesmat - yAsBinaryMatrix) .* logonesig)/(m);
+
+nonRegCost = 0;
+
+for j = 1:m,
+  rowsum = 0;
+  for k = 1:num_labels,
+  	rowsum = rowsum +(yAsBinaryMatrix(j,k) * logsig(j,k) + (1 - yAsBinaryMatrix(j,k)) * logonesig(j,k));
+  end	 	
+  nonRegCost = nonRegCost + rowsum;
+end
+
+J = nonRegCost/m;
+
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
