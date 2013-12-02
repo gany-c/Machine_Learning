@@ -90,7 +90,25 @@ for j = 1:m,
   nonRegCost = nonRegCost + rowsum;
 end
 
-J = nonRegCost/m;
+Theta1(:,[1]) = [];
+Theta2(:,[1]) = [];
+
+Theta1 = Theta1 .* Theta1;
+Theta2 = Theta2 .* Theta2; 
+
+
+nb_sum1 = sum(Theta1);
+disp("nb_sum1");
+disp(size(nb_sum1));
+scalar_sum1 = sum(nb_sum1);
+
+nb_sum2 = sum(Theta2);
+scalar_sum2 = sum(nb_sum2);
+
+regPenalty = (scalar_sum1+scalar_sum2);
+regPenalty = (lambda/(2*m))*regPenalty;
+
+J = nonRegCost/m + regPenalty;
 
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
