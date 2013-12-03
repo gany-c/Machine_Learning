@@ -122,9 +122,11 @@ for t = 1:m,
 
  delta_row =   h3_row - y_row;
 
- h_row_sg = sigmoidGradient(h2_row);
+ z2_row = a_row * Theta1';
+ z2_row = [1 z2_row];
+ z_row_sg = sigmoidGradient(z2_row);
 
- second_delta_row = (delta_row * Theta2) .* h_row_sg;
+ second_delta_row = (delta_row * Theta2) .* z_row_sg;
 
  second_delta_row = second_delta_row(2:end);
 
@@ -156,7 +158,7 @@ l = size(regmat1, 1);
 regmat1 = [zeros(l,1) regmat1];
 
 l = size(regmat2, 1);
-regmat2 = [ones(l,1) regmat2];
+regmat2 = [zeros(l,1) regmat2];
 
 regmat1 = (lambda/m) * regmat1;
 regmat2 = (lambda/m) * regmat2;
