@@ -19,16 +19,27 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
+disp("X");
+disp(size(X));
+disp("theta");
+disp(size(theta));
 
+H = X * theta;
+disp("H");
+disp(size(H));
 
+disp("y");
+disp(size(y));
 
+diffVector = H - y;
 
+errorSum = sum(diffVector .^ 2)/(2*m);
+disp("errorSum");
+disp(errorSum);
 
+regpenalty = (lambda/(2*m)) * (sum(theta .^ 2) - theta(1)^2);
 
-
-
-
-
+J = errorSum + regpenalty;
 
 % =========================================================================
 
