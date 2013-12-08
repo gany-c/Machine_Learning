@@ -32,6 +32,9 @@ disp("y");
 disp(size(y));
 
 diffVector = H - y;
+disp("diffVector");
+disp(size(diffVector));
+
 
 errorSum = sum(diffVector .^ 2)/(2*m);
 disp("errorSum");
@@ -40,6 +43,15 @@ disp(errorSum);
 regpenalty = (lambda/(2*m)) * (sum(theta .^ 2) - theta(1)^2);
 
 J = errorSum + regpenalty;
+
+unRegGrad = X' * diffVector;
+unRegGrad = unRegGrad/m;
+
+regGradientVector = theta * (lambda/m);
+
+regGradientVector(1) = 0;
+
+grad = unRegGrad + regGradientVector;
 
 % =========================================================================
 
