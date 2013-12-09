@@ -54,7 +54,13 @@ error_val   = zeros(m, 1);
 % ---------------------- Sample Solution ----------------------
 
 
-
+       for i = 1:m
+         smallx = X(1:i, :);
+	 smally =  y(1:i);
+	 smallTheta = trainLinearReg(smallx,smally,lambda); 
+         [error_train(i),dummyGrad1] = linearRegCostFunction(smallx,smally,smallTheta,0); 
+	 [error_val(i),dummyGrad2] = linearRegCostFunction(Xval,yval,smallTheta,0);
+       end
 
 
 
