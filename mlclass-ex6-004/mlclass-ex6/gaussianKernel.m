@@ -16,8 +16,10 @@ sim = 0;
 %
 %
 
-
-
+diff = x1 -x2;
+numeratorterm = sum(diff .^ 2);
+powerterm = numeratorterm/(2 * sigma * sigma);
+sim = exp(-1 * powerterm)
 
 
 
