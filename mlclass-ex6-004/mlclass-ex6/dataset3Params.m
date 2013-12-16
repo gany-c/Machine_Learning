@@ -23,8 +23,22 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+minError = Inf;
 
+cVector = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+sigmaVector = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 
+for i =1:8
+   for j = 1:8
+	model = svmTrain(X, y, cVector(i), @(x1,x2)gaussianKernel(x1,x2,sigmaVector(j)));
+	predictions = svmPredict(model, Xval);
+	errorVal =  mean(double(predictions ~= yval));
+	if(errorVal < minError)
+		minError = errorVal;
+		C = cVector(i);
+		sigma = sigmaVector(j);
+    end;
+end; 
 
 
 
