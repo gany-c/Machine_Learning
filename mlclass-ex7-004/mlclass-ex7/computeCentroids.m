@@ -26,7 +26,31 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+for i = 1:K
+	centroidVector = zeros(1,n);
+%	disp("starting size of centroidVector");
+%	disp(size(centroidVector));
+	centroidCount = 0;
+	for j = 1:m
+		centroidIndex = idx(j);
+		if(centroidIndex == i)
+			centroidCount = centroidCount + 1;
+			dataRow =  X(j,:);
+%			disp("size of dataRow");
+%			disp(size(dataRow));
+			centroidVector = centroidVector .+ dataRow;
+		endif
+	endfor
 
+	if(centroidCount >0)
+		centroidVector = centroidVector/centroidCount;
+	endif
+%	disp("size centroids row");
+%	disp(size(centroids(i,:)));
+%	disp("ending size of centroidVector");
+%	disp(size(centroidVector));
+	centroids(i,:) = centroidVector;		
+endfor
 
 
 
