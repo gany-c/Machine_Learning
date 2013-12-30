@@ -56,14 +56,14 @@ regThetaCost = sum(sum(sqTheta));
 
 sqX = X .^ 2;
 regXCost = sum(sum(sqX));
-disp("regXCost");
+%disp("regXCost");
 disp(regXCost);
 
 J = doubCost/2 + (lambda/2)* (regThetaCost + regXCost);
 
 
-X_grad = validDiff * Theta;
-Theta_grad = validDiff' * X;
+X_grad = (validDiff * Theta) + (lambda * X);
+Theta_grad = (validDiff' * X) +(lambda * Theta);
 
 % =============================================================
 
