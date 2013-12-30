@@ -45,7 +45,22 @@ differences = predictions .- Y;
 validDiff = differences .* R;
 sqDiff = validDiff .^ 2;
 doubCost = sum(sum(sqDiff));
+
+
 J = doubCost/2; 
+
+sqTheta = Theta .^ 2;
+regThetaCost = sum(sum(sqTheta));
+% disp("regThetaCost = ");
+% disp(regThetaCost);
+
+sqX = X .^ 2;
+regXCost = sum(sum(sqX));
+disp("regXCost");
+disp(regXCost);
+
+J = doubCost/2 + (lambda/2)* (regThetaCost + regXCost);
+
 
 X_grad = validDiff * Theta;
 Theta_grad = validDiff' * X;
