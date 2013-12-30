@@ -43,22 +43,12 @@ Theta_grad = zeros(size(Theta));
 predictions = X * Theta';
 differences = predictions .- Y;
 validDiff = differences .* R;
-validDiff = validDiff .^ 2;
-doubCost = sum(sum(validDiff));
+sqDiff = validDiff .^ 2;
+doubCost = sum(sum(sqDiff));
 J = doubCost/2; 
 
-
-
-
-
-
-
-
-
-
-
-
-
+X_grad = validDiff * Theta;
+Theta_grad = validDiff' * X;
 
 % =============================================================
 
