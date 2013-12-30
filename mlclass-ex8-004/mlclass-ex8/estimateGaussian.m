@@ -23,11 +23,23 @@ sigma2 = zeros(n, 1);
 
 
 
+for j = 1:n
+ colVector = X(:,j);
+ j_mu = (sum(colVector))/m;
+ onesVector = ones(m,1);
+ meanVector = onesVector * j_mu;
+ colVector = colVector .- meanVector;
+ colVector = colVector .^ 2;
+ variance  = (sum(colVector))/m;
+ mu(j) = j_mu;
+ sigma2(j) = variance; 
+endfor
 
+disp(" mu = ");
+disp(mu);
 
-
-
-
+disp("sigma2 = ");
+disp(sigma2);
 
 
 % =============================================================
