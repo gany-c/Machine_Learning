@@ -18,8 +18,10 @@ for iter = 1:num_iters
     %
 
 
-
-
+    H = X * theta;
+    difference = H - y;
+    grad = X' * difference;
+    theta = theta -(alpha/m)* grad;	
 
 
 
