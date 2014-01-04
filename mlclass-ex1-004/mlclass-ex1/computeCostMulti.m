@@ -9,11 +9,25 @@ m = length(y); % number of training examples
 % You need to return the following variables correctly 
 J = 0;
 
+%disp("X");
+%disp(size(X));
+
+%disp("y");
+%disp(size(y));
+
+%disp("theta");
+%disp(size(theta));
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
+H = X * theta;
 
+difference = H - y;
+
+sqDiff = difference .^ 2;
+
+J = sum(sqDiff)/(2*m);
 
 
 
